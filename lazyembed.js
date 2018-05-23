@@ -44,18 +44,16 @@
 
                 var image;
                 if (clonedIframe.hasAttribute('data-placeholder')) {
-                    image = document.createElement('img');
+                    image = document.createElement('div');
                     image.style.position = 'absolute';
                     image.style.zIndex = '1';
-                    image.style.display = 'block';
                     image.style.left = '0';
                     image.style.top = '0';
                     image.style.width = '100%';
                     image.style.height = '100%';
-                    image.setAttribute('src', clonedIframe.getAttribute('data-placeholder'));
-                    if (clonedIframe.hasAttribute('data-placeholder-alt')) {
-                        image.setAttribute('alt', clonedIframe.getAttribute('data-placeholder-alt'));
-                    }
+                    image.style.backgroundImage = 'url(' + clonedIframe.getAttribute('data-placeholder') + ')';
+                    image.style.backgroundSize = 'cover';
+                    image.style.backgroundPosition = 'center center';
                 }
 
                 var overlay = document.createElement('div');
