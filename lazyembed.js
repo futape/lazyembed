@@ -9,7 +9,8 @@
             selector: '.lazyembed',
             overlayText: 'Click to load',
             overlayBackground: 'rgba(0, 0, 0, .6)',
-            overlayColor: '#fff'
+            overlayColor: '#fff',
+            adoptResponsiveEmbed: true
         },
 
         setOptions: function(options) {
@@ -29,12 +30,17 @@
             for (var i = 0; i < iframes.length; i++) {
                 var iframe = iframes[i];
                 var clonedIframe = iframe.cloneNode();
+                var parent = iframe.parentElement;
 
                 var wrapper = document.createElement('div');
-                wrapper.style.position = 'relative';
                 wrapper.style.zIndex = '0';
                 wrapper.style.display = 'inline-block';
                 wrapper.style.lineHeight = '0';
+                if (this.options.adoptResponsiveEmbed && (parent.className.match(/(?:\s|^)embed-responsive(?:\s|$)/) !== null || clonedIframe.className.match(/(?:\s|^)embed-responsive-item(?:\s|$)/) !== null)) {
+                    wrapper.className = 'embed-responsive-item';
+                } else {
+                    wrapper.style.position = 'relative';
+                }
 
                 var image;
                 if (clonedIframe.hasAttribute('data-placeholder')) {
