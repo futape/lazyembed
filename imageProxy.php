@@ -4,10 +4,10 @@ if (!isset($_GET['uri'])) {
 }
 
 $uri = $_GET['uri'];
-$contentType = 'image/jpeg';
+$format = 'jpeg';
 
-if (!isset($_GET['contentType'])) {
-    $contentType = $_GET['contentType'];
+if (!isset($_GET['format'])) {
+    $format = $_GET['format'];
 }
 
 $ch = curl_init();
@@ -19,6 +19,6 @@ curl_close($ch);
 header('Pragma: public');
 header('Cache-Control: max-age=86400');
 header('Expires: '. gmdate('D, d M Y H:i:s \G\M\T', time() + 86400));
-header('Content-type: ' . $contentType);
+header('Content-type: image/' . $format);
 
 echo $output;
