@@ -34,6 +34,7 @@
                 wrapper.style.position = 'relative';
                 wrapper.style.zIndex = '0';
                 wrapper.style.display = 'inline-block';
+                wrapper.style.lineHeight = '0';
 
                 var image;
                 if (clonedIframe.hasAttribute('data-placeholder')) {
@@ -77,6 +78,7 @@
                 overlayText.style.paddingTop = '1rem';
                 overlayText.style.paddingBottom = '1rem';
                 overlayText.style.textAlign = 'center';
+                overlayText.style.lineHeight = '1';
                 overlayText.style.color = this.options.overlayColor;
                 overlayText.innerHTML = this.options.overlayText;
 
