@@ -10,7 +10,8 @@
             overlayText: 'Click to load',
             overlayBackground: 'rgba(0, 0, 0, .6)',
             overlayColor: '#fff',
-            adoptResponsiveEmbed: true
+            adoptResponsiveEmbed: true,
+            excludeElements: 'a'
         },
 
         setOptions: function(options) {
@@ -92,6 +93,13 @@
                 overlayText.innerHTML = this.options.overlayText;
 
                 overlay.appendChild(overlayText);
+
+                var overlayExcludes = overlay.querySelectorAll(this.options.excludeElements);
+                for (var u = 0; u < overlayExcludes.length; u++) {
+                    overlayExcludes[u].addEventListener('click', function(e) {
+                        e.stopPropagation();
+                    }, false);
+                }
 
                 wrapper.appendChild(clonedIframe);
                 if (image) {
