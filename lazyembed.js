@@ -6,7 +6,7 @@
 
     LazyEmbed.prototype = {
         defaults: {
-            selector: '.lazyembed',
+            elements: '.lazyembed',
             overlayText: 'Click to load',
             overlayBackground: 'rgba(0, 0, 0, .6)',
             overlayColor: '#fff',
@@ -23,7 +23,12 @@
         },
 
         init: function() {
-            var iframes = document.querySelectorAll(this.options.selector);
+            var iframes;
+            if (typeof elements === 'string') {
+                iframes = document.querySelectorAll(this.options.elements);
+            } else {
+                iframes = this.options.elements;
+            }
 
             this.elements = [];
 
