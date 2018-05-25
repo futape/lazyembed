@@ -25,7 +25,7 @@
 
         init: function() {
             var iframes;
-            if (typeof elements === 'string') {
+            if (typeof this.options.elements === 'string') {
                 iframes = document.querySelectorAll(this.options.elements);
             } else {
                 iframes = this.options.elements;
