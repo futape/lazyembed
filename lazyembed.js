@@ -12,9 +12,12 @@
             overlayColor: '#fff',
             adoptResponsiveEmbed: true,
             excludeElements: 'a',
-            onClick: function() {},
-            onLoad: function() {},
-            onInit: function() {}
+            onClick: function() {
+            },
+            onLoad: function() {
+            },
+            onInit: function() {
+            },
         },
 
         setOptions: function(options) {
@@ -41,12 +44,16 @@
                     var embed = embeds[i];
                     var clonedEmbed = embed.cloneNode();
                     var parent = embed.parentElement;
+                    var embedResponsivePattern = /(?:\s|^)embed-responsive(?:\s|$)/;
+                    var embedResponsiveItemPattern = /(?:\s|^)embed-responsive-item(?:\s|$)/;
 
                     var wrapper = document.createElement('div');
                     wrapper.style.zIndex = '0';
                     wrapper.style.display = 'inline-block';
                     wrapper.style.lineHeight = '0';
-                    if (options.adoptResponsiveEmbed && (parent.className.match(/(?:\s|^)embed-responsive(?:\s|$)/) !== null || clonedEmbed.className.match(/(?:\s|^)embed-responsive-item(?:\s|$)/) !== null)) {
+                    if (options.adoptResponsiveEmbed && (parent.className.match(
+                        embedResponsivePattern) !== null || clonedEmbed.className.match(
+                        embedResponsiveItemPattern) !== null)) {
                         wrapper.className = 'embed-responsive-item';
                     } else {
                         wrapper.style.position = 'relative';
@@ -124,7 +131,7 @@
                     options.onInit(wrapper);
                 })();
             }
-        }
+        },
     };
 
     window.LazyEmbed = LazyEmbed;
