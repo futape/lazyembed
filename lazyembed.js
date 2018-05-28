@@ -31,8 +31,6 @@
                 iframes = this.options.elements;
             }
 
-            this.elements = [];
-
             for (var i = 0; i < iframes.length; i++) {
                 var iframe = iframes[i];
                 var clonedIframe = iframe.cloneNode();
@@ -109,7 +107,6 @@
 
                 iframe.parentNode.replaceChild(wrapper, iframe);
 
-                this.elements.push(wrapper);
             }
         }
     };
