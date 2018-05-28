@@ -12,6 +12,7 @@
             overlayColor: '#fff',
             adoptResponsiveEmbed: true,
             excludeElements: 'a',
+            onClick: function() {},
             onInit: function() {}
         },
 
@@ -25,30 +26,32 @@
         },
 
         init: function() {
-            var iframes;
-            if (typeof this.options.elements === 'string') {
-                iframes = document.querySelectorAll(this.options.elements);
+            var options = this.options;
+
+            var embeds;
+            if (typeof options.elements === 'string') {
+                embeds = document.querySelectorAll(options.elements);
             } else {
-                iframes = this.options.elements;
+                embeds = options.elements;
             }
 
-            for (var i = 0; i < iframes.length; i++) {
-                var iframe = iframes[i];
-                var clonedIframe = iframe.cloneNode();
-                var parent = iframe.parentElement;
+            for (var i = 0; i < embeds.length; i++) {
+                var embed = embeds[i];
+                var clonedEmbed = embed.cloneNode();
+                var parent = embed.parentElement;
 
                 var wrapper = document.createElement('div');
                 wrapper.style.zIndex = '0';
                 wrapper.style.display = 'inline-block';
                 wrapper.style.lineHeight = '0';
-                if (this.options.adoptResponsiveEmbed && (parent.className.match(/(?:\s|^)embed-responsive(?:\s|$)/) !== null || clonedIframe.className.match(/(?:\s|^)embed-responsive-item(?:\s|$)/) !== null)) {
+                if (options.adoptResponsiveEmbed && (parent.className.match(/(?:\s|^)embed-responsive(?:\s|$)/) !== null || clonedEmbed.className.match(/(?:\s|^)embed-responsive-item(?:\s|$)/) !== null)) {
                     wrapper.className = 'embed-responsive-item';
                 } else {
                     wrapper.style.position = 'relative';
                 }
 
                 var image;
-                if (clonedIframe.hasAttribute('data-placeholder')) {
+                if (clonedEmbed.hasAttribute('data-placeholder')) {
                     image = document.createElement('div');
                     image.style.position = 'absolute';
                     image.style.zIndex = '1';
@@ -56,7 +59,7 @@
                     image.style.top = '0';
                     image.style.width = '100%';
                     image.style.height = '100%';
-                    image.style.backgroundImage = 'url(' + clonedIframe.getAttribute('data-placeholder') + ')';
+                    image.style.backgroundImage = 'url(' + clonedEmbed.getAttribute('data-placeholder') + ')';
                     image.style.backgroundSize = 'cover';
                     image.style.backgroundPosition = 'center center';
                 }
@@ -69,13 +72,18 @@
                 overlay.style.width = '100%';
                 overlay.style.height = '100%';
                 overlay.style.cursor = 'pointer';
-                overlay.style.backgroundColor = this.options.overlayBackground;
+                overlay.style.backgroundColor = options.overlayBackground;
                 overlay.addEventListener('click', function() {
                     overlay.style.display = 'none';
                     if (image) {
                         image.style.display = 'none';
                     }
-                    clonedIframe.setAttribute('src', clonedIframe.getAttribute('data-src'));
+
+                    if (clonedEmbed.hasAttribute('data-src')) {
+                        clonedEmbed.setAttribute('src', clonedEmbed.getAttribute('data-src'));
+                    }
+
+                    options.onClick(clonedEmbed);
                 }, false);
 
                 var overlayText = document.createElement('div');
@@ -88,27 +96,27 @@
                 overlayText.style.paddingBottom = '1rem';
                 overlayText.style.textAlign = 'center';
                 overlayText.style.lineHeight = '1';
-                overlayText.style.color = this.options.overlayColor;
-                overlayText.innerHTML = this.options.overlayText;
+                overlayText.style.color = options.overlayColor;
+                overlayText.innerHTML = options.overlayText;
 
                 overlay.appendChild(overlayText);
 
-                var overlayExcludes = overlay.querySelectorAll(this.options.excludeElements);
+                var overlayExcludes = overlay.querySelectorAll(options.excludeElements);
                 for (var u = 0; u < overlayExcludes.length; u++) {
                     overlayExcludes[u].addEventListener('click', function(e) {
                         e.stopPropagation();
                     }, false);
                 }
 
-                wrapper.appendChild(clonedIframe);
+                wrapper.appendChild(clonedEmbed);
                 if (image) {
                     wrapper.appendChild(image);
                 }
                 wrapper.appendChild(overlay);
 
-                iframe.parentNode.replaceChild(wrapper, iframe);
+                embed.parentNode.replaceChild(wrapper, embed);
 
-                this.options.onInit(wrapper);
+                options.onInit(wrapper);
             }
         }
     };
