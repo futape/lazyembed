@@ -11,7 +11,8 @@
             overlayBackground: 'rgba(0, 0, 0, .6)',
             overlayColor: '#fff',
             adoptResponsiveEmbed: true,
-            excludeElements: 'a'
+            excludeElements: 'a',
+            onInit: function() {}
         },
 
         setOptions: function(options) {
@@ -107,6 +108,7 @@
 
                 iframe.parentNode.replaceChild(wrapper, iframe);
 
+                this.options.onInit(wrapper);
             }
         }
     };
