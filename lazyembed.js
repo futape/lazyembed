@@ -13,6 +13,7 @@
             adoptResponsiveEmbed: true,
             excludeElements: 'a',
             onClick: function() {},
+            onLoad: function() {},
             onInit: function() {}
         },
 
@@ -80,6 +81,9 @@
                     }
 
                     if (clonedEmbed.hasAttribute('data-src')) {
+                        clonedEmbed.addEventListener('load', function() {
+                            options.onLoad(clonedEmbed);
+                        }, false);
                         clonedEmbed.setAttribute('src', clonedEmbed.getAttribute('data-src'));
                     }
 
