@@ -42,7 +42,7 @@
             for (var i = 0; i < embeds.length; i++) {
                 (function() {
                     var embed = embeds[i];
-                    var clonedEmbed = embed.cloneNode();
+                    var clonedEmbed = embed.cloneNode(true);
                     var parent = embed.parentElement;
                     var embedResponsivePattern = /(?:\s|^)embed-responsive(?:\s|$)/;
                     var embedResponsiveItemPattern = /(?:\s|^)embed-responsive-item(?:\s|$)/;
