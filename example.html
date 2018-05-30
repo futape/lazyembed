@@ -1,24 +1,25 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>LazyEmbed Example</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-	</head>
-	<body>
-		<iframe
-			width="600"
-			height="450"
-			frameborder="0"
-			data-src="https://www.google.com/maps/embed/v1/place?key={API_KEY}
-	    &q=Space+Needle,Seattle+WA&zoom=13&maptype=roadmap"
-			data-placeholder="https://maps.googleapis.com/maps/api/staticmap?center=Space+Needle,Seattle+WA&zoom=13&size=600x450&maptype=roadmap&key={API_KEY}"
-			allowfullscreen
-			data-lazyembed
-		></iframe>
-		<script src="lazyembed.js"></script>
-		<script>
-			console.log(new LazyEmbed());
-		</script>
-	</body>
+    <head>
+        <meta charset="utf-8" />
+        <title>LazyEmbed Example</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="lazyembed.css" />
+    </head>
+    <body>
+        <iframe
+            width="600"
+            height="450"
+            frameborder="0"
+            data-src="https://www.google.com/maps/embed/v1/place?key={API_KEY}
+        &q=Space+Needle,Seattle+WA&zoom=13&maptype=roadmap"
+            data-placeholder="https://maps.googleapis.com/maps/api/staticmap?center=Space+Needle,Seattle+WA&zoom=13&size=600x450&maptype=roadmap&key={API_KEY}"
+            allowfullscreen
+            data-lazyembed
+        ></iframe>
+        <script src="lazyembed.js"></script>
+        <script>
+            new LazyEmbed();
+        </script>
+    </body>
 </html>

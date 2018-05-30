@@ -12,6 +12,13 @@
             overlayColor: '#fff',
             adoptResponsiveEmbed: true,
             excludeElements: 'a',
+            classes: {
+                root: 'lazyembed',
+                overlay: 'lazyembed__overlay',
+                text: 'lazyembed__text',
+                placeholder: 'lazyembed__placeholder',
+                embed: 'lazyembed__embed'
+            },
             onClick: function() {
             },
             onLoad: function() {
@@ -42,45 +49,30 @@
             for (var i = 0; i < embeds.length; i++) {
                 (function() {
                     var embed = embeds[i];
-                    var clonedEmbed = embed.cloneNode(true);
                     var parent = embed.parentElement;
                     var embedResponsivePattern = /(?:\s|^)embed-responsive(?:\s|$)/;
                     var embedResponsiveItemPattern = /(?:\s|^)embed-responsive-item(?:\s|$)/;
 
+                    var clonedEmbed = embed.cloneNode(true);
+                    clonedEmbed.className += options.classes.embed;
+
                     var wrapper = document.createElement('div');
-                    wrapper.style.zIndex = '0';
-                    wrapper.style.display = 'inline-block';
-                    wrapper.style.lineHeight = '0';
+                    wrapper.className = options.classes.root;
                     if (options.adoptResponsiveEmbed && (parent.className.match(
                         embedResponsivePattern) !== null || clonedEmbed.className.match(
                         embedResponsiveItemPattern) !== null)) {
-                        wrapper.className = 'embed-responsive-item';
-                    } else {
-                        wrapper.style.position = 'relative';
+                        wrapper.className += ' embed-responsive-item';
                     }
 
                     var image;
                     if (clonedEmbed.hasAttribute('data-placeholder')) {
                         image = document.createElement('div');
-                        image.style.position = 'absolute';
-                        image.style.zIndex = '1';
-                        image.style.left = '0';
-                        image.style.top = '0';
-                        image.style.width = '100%';
-                        image.style.height = '100%';
+                        image.className = options.classes.placeholder;
                         image.style.backgroundImage = 'url(' + clonedEmbed.getAttribute('data-placeholder') + ')';
-                        image.style.backgroundSize = 'cover';
-                        image.style.backgroundPosition = 'center center';
                     }
 
                     var overlay = document.createElement('div');
-                    overlay.style.position = 'absolute';
-                    overlay.style.zIndex = '2';
-                    overlay.style.left = '0';
-                    overlay.style.top = '0';
-                    overlay.style.width = '100%';
-                    overlay.style.height = '100%';
-                    overlay.style.cursor = 'pointer';
+                    overlay.className = options.classes.overlay;
                     overlay.style.backgroundColor = options.overlayBackground;
                     overlay.addEventListener('click', function() {
                         overlay.style.display = 'none';
@@ -99,15 +91,7 @@
                     }, false);
 
                     var overlayText = document.createElement('div');
-                    overlayText.style.position = 'absolute';
-                    overlayText.style.left = '1rem';
-                    overlayText.style.right = '1rem';
-                    overlayText.style.top = '50%';
-                    overlayText.style.transform = 'translateY(-50%)';
-                    overlayText.style.paddingTop = '1rem';
-                    overlayText.style.paddingBottom = '1rem';
-                    overlayText.style.textAlign = 'center';
-                    overlayText.style.lineHeight = '1';
+                    overlayText.className = options.classes.text;
                     overlayText.style.color = options.overlayColor;
                     overlayText.innerHTML = options.overlayText;
 
