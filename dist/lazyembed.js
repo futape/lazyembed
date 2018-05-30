@@ -1,5 +1,22 @@
-(function() {
-    var LazyEmbed = function(options) {
+(function (global, factory) {
+    if (typeof define === "function" && define.amd) {
+        define(['exports'], factory);
+    } else if (typeof exports !== "undefined") {
+        factory(exports);
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod.exports);
+        global.lazyembed = mod.exports;
+    }
+})(this, function (exports) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    var LazyEmbed = function LazyEmbed(options) {
         this.setOptions(options);
         this.init();
     };
@@ -19,15 +36,12 @@
                 placeholder: 'lazyembed__placeholder',
                 embed: 'lazyembed__embed'
             },
-            onClick: function() {
-            },
-            onLoad: function() {
-            },
-            onInit: function() {
-            },
+            onClick: function onClick() {},
+            onLoad: function onLoad() {},
+            onInit: function onInit() {}
         },
 
-        setOptions: function(options) {
+        setOptions: function setOptions(options) {
             this.options = options || {};
             for (var key in this.defaults) {
                 if (!this.options[key]) {
@@ -36,7 +50,7 @@
             }
         },
 
-        init: function() {
+        init: function init() {
             var options = this.options;
 
             var embeds;
@@ -47,7 +61,7 @@
             }
 
             for (var i = 0; i < embeds.length; i++) {
-                (function() {
+                (function () {
                     var embed = embeds[i];
                     var parent = embed.parentElement;
                     var embedResponsivePattern = /(?:\s|^)embed-responsive(?:\s|$)/;
@@ -58,9 +72,7 @@
 
                     var wrapper = document.createElement('div');
                     wrapper.className = options.classes.root;
-                    if (options.adoptResponsiveEmbed && (parent.className.match(
-                        embedResponsivePattern) !== null || clonedEmbed.className.match(
-                        embedResponsiveItemPattern) !== null)) {
+                    if (options.adoptResponsiveEmbed && (parent.className.match(embedResponsivePattern) !== null || clonedEmbed.className.match(embedResponsiveItemPattern) !== null)) {
                         wrapper.className += ' embed-responsive-item';
                     }
 
@@ -74,14 +86,14 @@
                     var overlay = document.createElement('div');
                     overlay.className = options.classes.overlay;
                     overlay.style.backgroundColor = options.overlayBackground;
-                    overlay.addEventListener('click', function() {
+                    overlay.addEventListener('click', function () {
                         overlay.style.display = 'none';
                         if (image) {
                             image.style.display = 'none';
                         }
 
                         if (clonedEmbed.hasAttribute('data-src')) {
-                            clonedEmbed.addEventListener('load', function() {
+                            clonedEmbed.addEventListener('load', function () {
                                 options.onLoad(clonedEmbed);
                             }, false);
                             clonedEmbed.setAttribute('src', clonedEmbed.getAttribute('data-src'));
@@ -99,7 +111,7 @@
 
                     var overlayExcludes = overlay.querySelectorAll(options.excludeElements);
                     for (var u = 0; u < overlayExcludes.length; u++) {
-                        overlayExcludes[u].addEventListener('click', function(e) {
+                        overlayExcludes[u].addEventListener('click', function (e) {
                             e.stopPropagation();
                         }, false);
                     }
@@ -115,8 +127,9 @@
                     options.onInit(wrapper);
                 })();
             }
-        },
+        }
     };
 
-    window.LazyEmbed = LazyEmbed;
-})();
+    exports.default = LazyEmbed;
+});
+//# sourceMappingURL=lazyembed.js.map
