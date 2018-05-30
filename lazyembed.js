@@ -6,7 +6,7 @@
 
     LazyEmbed.prototype = {
         defaults: {
-            elements: '.lazyembed',
+            elements: '[data-lazyembed]',
             overlayText: 'Click to load',
             overlayBackground: 'rgba(0, 0, 0, .6)',
             overlayColor: '#fff',
