@@ -13,11 +13,11 @@ const LazyEmbed = (() => {
             placeholder: 'lazyembed__placeholder',
             embed: 'lazyembed__embed',
         },
-        onClick: function onClick() {
+        onClick: () => {
         },
-        onLoad: function onLoad() {
+        onLoad: () => {
         },
-        onInit: function onInit() {
+        onInit: () => {
         },
     };
     const EMBED_RESPONSIVE_PATTERN = /(?:\s|^)embed-responsive(?:\s|$)/;
