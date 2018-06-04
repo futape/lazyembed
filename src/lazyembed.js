@@ -1,10 +1,5 @@
-const LazyEmbed = function(options) {
-    this.setOptions(options);
-    this.init();
-};
-
-LazyEmbed.prototype = {
-    defaults: {
+const LazyEmbed = (() => {
+    const DEFAULTS = {
         elements: '[data-lazyembed]',
         overlayText: 'Click to load',
         overlayBackground: 'rgba(0, 0, 0, .6)',
@@ -16,92 +11,103 @@ LazyEmbed.prototype = {
             overlay: 'lazyembed__overlay',
             text: 'lazyembed__text',
             placeholder: 'lazyembed__placeholder',
-            embed: 'lazyembed__embed'
+            embed: 'lazyembed__embed',
         },
-        onClick: function() {
+        onClick: function onClick() {
         },
-        onLoad: function() {
+        onLoad: function onLoad() {
         },
-        onInit: function() {
+        onInit: function onInit() {
         },
-    },
+    };
+    const EMBED_RESPONSIVE_PATTERN = /(?:\s|^)embed-responsive(?:\s|$)/;
+    const EMBED_RESPONSIVE_ITEM_PATTERN = /(?:\s|^)embed-responsive-item(?:\s|$)/;
 
-    setOptions: function(options) {
-        this.options = options || {};
-        for (var key in this.defaults) {
-            if (!this.options[key]) {
-                this.options[key] = this.defaults[key];
+    class LazyEmbed
+    {
+        static get defaults()
+        {
+            return DEFAULTS;
+        }
+
+        constructor(options = {})
+        {
+            this.setOptions(options);
+            this.init();
+        }
+
+        setOptions(options)
+        {
+            this.options = options;
+            for (let key in LazyEmbed.defaults) {
+                if (LazyEmbed.defaults.hasOwnProperty(key) && typeof this.options[key] === 'undefined') {
+                    this.options[key] = LazyEmbed.defaults[key];
+                }
             }
         }
-    },
 
-    init: function() {
-        var options = this.options;
+        init()
+        {
+            let embeds;
+            if (typeof this.options.elements === 'string') {
+                embeds = document.querySelectorAll(this.options.elements);
+            } else {
+                embeds = this.options.elements;
+            }
 
-        var embeds;
-        if (typeof options.elements === 'string') {
-            embeds = document.querySelectorAll(options.elements);
-        } else {
-            embeds = options.elements;
-        }
+            embeds.forEach(embed => {
+                const parent = embed.parentElement;
 
-        for (var i = 0; i < embeds.length; i++) {
-            (function() {
-                var embed = embeds[i];
-                var parent = embed.parentElement;
-                var embedResponsivePattern = /(?:\s|^)embed-responsive(?:\s|$)/;
-                var embedResponsiveItemPattern = /(?:\s|^)embed-responsive-item(?:\s|$)/;
+                const clonedEmbed = embed.cloneNode(true);
+                clonedEmbed.className += this.options.classes.embed;
 
-                var clonedEmbed = embed.cloneNode(true);
-                clonedEmbed.className += options.classes.embed;
-
-                var wrapper = document.createElement('div');
-                wrapper.className = options.classes.root;
-                if (options.adoptResponsiveEmbed && (parent.className.match(
-                    embedResponsivePattern) !== null || clonedEmbed.className.match(
-                    embedResponsiveItemPattern) !== null)) {
+                const wrapper = document.createElement('div');
+                wrapper.className = this.options.classes.root;
+                if (this.options.adoptResponsiveEmbed && (parent.className.match(
+                    EMBED_RESPONSIVE_PATTERN) !== null || clonedEmbed.className.match(
+                    EMBED_RESPONSIVE_ITEM_PATTERN) !== null)) {
                     wrapper.className += ' embed-responsive-item';
                 }
 
-                var image;
+                let image;
                 if (clonedEmbed.hasAttribute('data-placeholder')) {
                     image = document.createElement('div');
-                    image.className = options.classes.placeholder;
+                    image.className = this.options.classes.placeholder;
                     image.style.backgroundImage = 'url(' + clonedEmbed.getAttribute('data-placeholder') + ')';
                 }
 
-                var overlay = document.createElement('div');
-                overlay.className = options.classes.overlay;
-                overlay.style.backgroundColor = options.overlayBackground;
-                overlay.addEventListener('click', function() {
+                const overlay = document.createElement('div');
+                overlay.className = this.options.classes.overlay;
+                overlay.style.backgroundColor = this.options.overlayBackground;
+                overlay.addEventListener('click', () => {
                     overlay.style.display = 'none';
                     if (image) {
                         image.style.display = 'none';
                     }
 
                     if (clonedEmbed.hasAttribute('data-src')) {
-                        clonedEmbed.addEventListener('load', function() {
-                            options.onLoad(clonedEmbed);
+                        clonedEmbed.addEventListener('load', () => {
+                            this.options.onLoad(clonedEmbed);
                         }, false);
                         clonedEmbed.setAttribute('src', clonedEmbed.getAttribute('data-src'));
                     }
 
-                    options.onClick(clonedEmbed);
+                    this.options.onClick(clonedEmbed);
                 }, false);
 
-                var overlayText = document.createElement('div');
-                overlayText.className = options.classes.text;
-                overlayText.style.color = options.overlayColor;
-                overlayText.innerHTML = options.overlayText;
+                const overlayText = document.createElement('div');
+                overlayText.className = this.options.classes.text;
+                overlayText.style.color = this.options.overlayColor;
+                overlayText.innerHTML = this.options.overlayText;
 
                 overlay.appendChild(overlayText);
 
-                var overlayExcludes = overlay.querySelectorAll(options.excludeElements);
-                for (var u = 0; u < overlayExcludes.length; u++) {
-                    overlayExcludes[u].addEventListener('click', function(e) {
+                const overlayExcludes = overlay.querySelectorAll(this.options.excludeElements);
+                overlayExcludes.forEach(overlayExclude => {
+                    overlayExclude.addEventListener('click', function(e) {
                         e.stopPropagation();
                     }, false);
-                }
+                });
 
                 wrapper.appendChild(clonedEmbed);
                 if (image) {
@@ -111,11 +117,12 @@ LazyEmbed.prototype = {
 
                 embed.parentNode.replaceChild(wrapper, embed);
 
-                options.onInit(wrapper);
-            })();
+                this.options.onInit(wrapper);
+            });
         }
-    },
-};
+    }
+
+    return LazyEmbed;
+})();
 
 export default LazyEmbed;
-

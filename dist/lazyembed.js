@@ -1,91 +1,94 @@
-(function (global, factory) {
-    if (typeof define === "function" && define.amd) {
-        define(['exports'], factory);
-    } else if (typeof exports !== "undefined") {
-        factory(exports);
-    } else {
-        var mod = {
-            exports: {}
-        };
-        factory(mod.exports);
-        global.lazyembed = mod.exports;
-    }
-})(this, function (exports) {
-    'use strict';
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    var LazyEmbed = function LazyEmbed(options) {
-        this.setOptions(options);
-        this.init();
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var LazyEmbed = function () {
+    var DEFAULTS = {
+        elements: '[data-lazyembed]',
+        overlayText: 'Click to load',
+        overlayBackground: 'rgba(0, 0, 0, .6)',
+        overlayColor: '#fff',
+        adoptResponsiveEmbed: true,
+        excludeElements: 'a',
+        classes: {
+            root: 'lazyembed',
+            overlay: 'lazyembed__overlay',
+            text: 'lazyembed__text',
+            placeholder: 'lazyembed__placeholder',
+            embed: 'lazyembed__embed'
+        },
+        onClick: function onClick() {},
+        onLoad: function onLoad() {},
+        onInit: function onInit() {}
     };
+    var EMBED_RESPONSIVE_PATTERN = /(?:\s|^)embed-responsive(?:\s|$)/;
+    var EMBED_RESPONSIVE_ITEM_PATTERN = /(?:\s|^)embed-responsive-item(?:\s|$)/;
 
-    LazyEmbed.prototype = {
-        defaults: {
-            elements: '[data-lazyembed]',
-            overlayText: 'Click to load',
-            overlayBackground: 'rgba(0, 0, 0, .6)',
-            overlayColor: '#fff',
-            adoptResponsiveEmbed: true,
-            excludeElements: 'a',
-            classes: {
-                root: 'lazyembed',
-                overlay: 'lazyembed__overlay',
-                text: 'lazyembed__text',
-                placeholder: 'lazyembed__placeholder',
-                embed: 'lazyembed__embed'
-            },
-            onClick: function onClick() {},
-            onLoad: function onLoad() {},
-            onInit: function onInit() {}
-        },
+    var LazyEmbed = function () {
+        _createClass(LazyEmbed, null, [{
+            key: 'defaults',
+            get: function get() {
+                return DEFAULTS;
+            }
+        }]);
 
-        setOptions: function setOptions(options) {
-            this.options = options || {};
-            for (var key in this.defaults) {
-                if (!this.options[key]) {
-                    this.options[key] = this.defaults[key];
+        function LazyEmbed() {
+            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+            _classCallCheck(this, LazyEmbed);
+
+            this.setOptions(options);
+            this.init();
+        }
+
+        _createClass(LazyEmbed, [{
+            key: 'setOptions',
+            value: function setOptions(options) {
+                this.options = options;
+                for (var key in LazyEmbed.defaults) {
+                    if (LazyEmbed.defaults.hasOwnProperty(key) && typeof this.options[key] === 'undefined') {
+                        this.options[key] = LazyEmbed.defaults[key];
+                    }
                 }
+
+                console.log(options, this.options, LazyEmbed.defaults);
             }
-        },
+        }, {
+            key: 'init',
+            value: function init() {
+                var _this = this;
 
-        init: function init() {
-            var options = this.options;
+                var embeds = void 0;
+                if (typeof this.options.elements === 'string') {
+                    embeds = document.querySelectorAll(this.options.elements);
+                } else {
+                    embeds = this.options.elements;
+                }
 
-            var embeds;
-            if (typeof options.elements === 'string') {
-                embeds = document.querySelectorAll(options.elements);
-            } else {
-                embeds = options.elements;
-            }
+                console.log(embeds, this.options.elements);
 
-            for (var i = 0; i < embeds.length; i++) {
-                (function () {
-                    var embed = embeds[i];
+                embeds.forEach(function (embed) {
                     var parent = embed.parentElement;
-                    var embedResponsivePattern = /(?:\s|^)embed-responsive(?:\s|$)/;
-                    var embedResponsiveItemPattern = /(?:\s|^)embed-responsive-item(?:\s|$)/;
 
                     var clonedEmbed = embed.cloneNode(true);
-                    clonedEmbed.className += options.classes.embed;
+                    clonedEmbed.className += _this.options.classes.embed;
 
                     var wrapper = document.createElement('div');
-                    wrapper.className = options.classes.root;
-                    if (options.adoptResponsiveEmbed && (parent.className.match(embedResponsivePattern) !== null || clonedEmbed.className.match(embedResponsiveItemPattern) !== null)) {
+                    wrapper.className = _this.options.classes.root;
+                    if (_this.options.adoptResponsiveEmbed && (parent.className.match(EMBED_RESPONSIVE_PATTERN) !== null || clonedEmbed.className.match(EMBED_RESPONSIVE_ITEM_PATTERN) !== null)) {
                         wrapper.className += ' embed-responsive-item';
                     }
 
-                    var image;
+                    var image = void 0;
                     if (clonedEmbed.hasAttribute('data-placeholder')) {
                         image = document.createElement('div');
-                        image.className = options.classes.placeholder;
+                        image.className = _this.options.classes.placeholder;
                         image.style.backgroundImage = 'url(' + clonedEmbed.getAttribute('data-placeholder') + ')';
                     }
 
                     var overlay = document.createElement('div');
-                    overlay.className = options.classes.overlay;
-                    overlay.style.backgroundColor = options.overlayBackground;
+                    overlay.className = _this.options.classes.overlay;
+                    overlay.style.backgroundColor = _this.options.overlayBackground;
                     overlay.addEventListener('click', function () {
                         overlay.style.display = 'none';
                         if (image) {
@@ -94,27 +97,27 @@
 
                         if (clonedEmbed.hasAttribute('data-src')) {
                             clonedEmbed.addEventListener('load', function () {
-                                options.onLoad(clonedEmbed);
+                                _this.options.onLoad(clonedEmbed);
                             }, false);
                             clonedEmbed.setAttribute('src', clonedEmbed.getAttribute('data-src'));
                         }
 
-                        options.onClick(clonedEmbed);
+                        _this.options.onClick(clonedEmbed);
                     }, false);
 
                     var overlayText = document.createElement('div');
-                    overlayText.className = options.classes.text;
-                    overlayText.style.color = options.overlayColor;
-                    overlayText.innerHTML = options.overlayText;
+                    overlayText.className = _this.options.classes.text;
+                    overlayText.style.color = _this.options.overlayColor;
+                    overlayText.innerHTML = _this.options.overlayText;
 
                     overlay.appendChild(overlayText);
 
-                    var overlayExcludes = overlay.querySelectorAll(options.excludeElements);
-                    for (var u = 0; u < overlayExcludes.length; u++) {
-                        overlayExcludes[u].addEventListener('click', function (e) {
+                    var overlayExcludes = overlay.querySelectorAll(_this.options.excludeElements);
+                    overlayExcludes.forEach(function (overlayExclude) {
+                        overlayExclude.addEventListener('click', function (e) {
                             e.stopPropagation();
                         }, false);
-                    }
+                    });
 
                     wrapper.appendChild(clonedEmbed);
                     if (image) {
@@ -124,12 +127,14 @@
 
                     embed.parentNode.replaceChild(wrapper, embed);
 
-                    options.onInit(wrapper);
-                })();
+                    _this.options.onInit(wrapper);
+                });
             }
-        }
-    };
+        }]);
 
-    exports.default = LazyEmbed;
-});
+        return LazyEmbed;
+    }();
+
+    return LazyEmbed;
+}();
 //# sourceMappingURL=lazyembed.js.map

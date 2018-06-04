@@ -1,7 +1,10 @@
 {
     "presets": [
         ["env", {
-            "modules": "umd"
+            "modules": false
         }]
+    ],
+    "plugins": [
+        "transform-es2015-modules-strip"
     ]
 }
