@@ -80,7 +80,7 @@ Option | Type | Required | Default | Description
 `classes.placeholder` | `string` | Yes | `'lazyembed__placeholder'` | The class to apply to the placeholder image. When not applying the default class, you have to adjust the CSS.
 `classes.embed` | `string` | Yes | `'lazyembed__embed'` | The class to apply to the embed element. This class is just for identifying purpose, it doesn't define any styling by default.
 `onClick` | `function` | Yes | _Empty function_ | A callback function of the following form `function(HTMLElement embed)`, called when the user clicks on the overlay and after the LazyEmbed parts are hidden and the embedded content is requested.
-`onLoad` | `function` Yes | _Empty function_ | A callback function of the following form `function(HTMLElement embed)`, bound to the `iframe`'s `load` event.
+`onLoad` | `function` | Yes | _Empty function_ | A callback function of the following form `function(HTMLElement embed)`, bound to the `iframe`'s `load` event.
 `onInit` | `function` | Yes | _Empty function_ | A callback function of the following form `function(HTMLElement wrapper)`, called when LazyEmbed has fully initialised the embed element.
 
 
