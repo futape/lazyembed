@@ -1,6 +1,6 @@
 {
   "name": "lazyembed2",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A library for loading embeds and individual content on click",
   "browser": "dist/lazyembed.js",
   "module": "src/lazyembed.js",
