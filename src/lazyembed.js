@@ -2,8 +2,8 @@ const LazyEmbed = (() => {
     const DEFAULTS = {
         elements: '[data-lazyembed]',
         overlayText: 'Click to load',
-        overlayBackground: 'rgba(0, 0, 0, .6)',
-        overlayColor: '#fff',
+        // !!! DEPRECATED !!! overlayBackground: 'rgba(0, 0, 0, .6)',
+        // !!! DEPRECATED !!! overlayColor: '#fff',
         adoptResponsiveEmbed: true,
         excludeElements: 'a',
         classes: {
@@ -78,7 +78,9 @@ const LazyEmbed = (() => {
 
                 const overlay = document.createElement('div');
                 overlay.className = this.options.classes.overlay;
-                overlay.style.backgroundColor = this.options.overlayBackground;
+                if (typeof this.options.overlayBackground !== 'undefined') {
+                    overlay.style.background = this.options.overlayBackground;
+                }
                 overlay.addEventListener('click', () => {
                     overlay.style.display = 'none';
                     if (image) {
@@ -97,7 +99,9 @@ const LazyEmbed = (() => {
 
                 const overlayText = document.createElement('div');
                 overlayText.className = this.options.classes.text;
-                overlayText.style.color = this.options.overlayColor;
+                if (typeof this.options.overlayColor !== 'undefined') {
+                    overlayText.style.color = this.options.overlayColor;
+                }
                 overlayText.innerHTML = this.options.overlayText;
 
                 overlay.appendChild(overlayText);

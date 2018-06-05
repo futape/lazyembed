@@ -6,8 +6,8 @@ var LazyEmbed = function () {
     var DEFAULTS = {
         elements: '[data-lazyembed]',
         overlayText: 'Click to load',
-        overlayBackground: 'rgba(0, 0, 0, .6)',
-        overlayColor: '#fff',
+        // !!! DEPRECATED !!! overlayBackground: 'rgba(0, 0, 0, .6)',
+        // !!! DEPRECATED !!! overlayColor: '#fff',
         adoptResponsiveEmbed: true,
         excludeElements: 'a',
         classes: {
@@ -50,8 +50,6 @@ var LazyEmbed = function () {
                         this.options[key] = LazyEmbed.defaults[key];
                     }
                 }
-
-                console.log(options, this.options, LazyEmbed.defaults);
             }
         }, {
             key: 'init',
@@ -64,8 +62,6 @@ var LazyEmbed = function () {
                 } else {
                     embeds = this.options.elements;
                 }
-
-                console.log(embeds, this.options.elements);
 
                 embeds.forEach(function (embed) {
                     var parent = embed.parentElement;
@@ -88,7 +84,9 @@ var LazyEmbed = function () {
 
                     var overlay = document.createElement('div');
                     overlay.className = _this.options.classes.overlay;
-                    overlay.style.backgroundColor = _this.options.overlayBackground;
+                    if (typeof _this.options.overlayBackground !== 'undefined') {
+                        overlay.style.background = _this.options.overlayBackground;
+                    }
                     overlay.addEventListener('click', function () {
                         overlay.style.display = 'none';
                         if (image) {
@@ -107,7 +105,9 @@ var LazyEmbed = function () {
 
                     var overlayText = document.createElement('div');
                     overlayText.className = _this.options.classes.text;
-                    overlayText.style.color = _this.options.overlayColor;
+                    if (typeof _this.options.overlayColor !== 'undefined') {
+                        overlayText.style.color = _this.options.overlayColor;
+                    }
                     overlayText.innerHTML = _this.options.overlayText;
 
                     overlay.appendChild(overlayText);
