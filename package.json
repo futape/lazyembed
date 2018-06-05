@@ -23,9 +23,6 @@
     "DSGVO",
     "GDPR"
   ],
-  "dependencies": {
-    "npm": "^6.1.0"
-  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-transform-es2015-modules-strip": "^0.1.1",
