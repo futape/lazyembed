@@ -2,6 +2,8 @@
 
 LazyEmbed is a JavaScript library for loading embeds and individual content on click.
 
+[![NPM](https://nodei.co/npm/lazyembed2.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/lazyembed2/)
+
 
 
 ## Install
