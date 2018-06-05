@@ -72,7 +72,7 @@ Option | Type | Required | Default | Description
 ------ | ---- | -------- | ------- | -----------
 `elements` | <code>string &vert; Iteratable&lt;HTMLElement&gt;</code> | Yes | `'[data-lazyembed]'` | The embed elements to lazyload. Either a string used as selector or an iteratable of `HTMLElement`s implementing the `forEach` method.
 `overlayText` | `string` | Yes | `'Click to load'` | The text printed on the overlay. Can contain HTML.
-`adoptResponsiveEmbed` | `bool` | Yes | `true` | If set to `true`, LazyEmbed tries to adept the [Bootstrap's `embed-responsive` class](https://getbootstrap.com/docs/4.1/utilities/embed/) from the embed element.
+`adoptResponsiveEmbed` | `bool` | Yes | `true` | If set to `true`, LazyEmbed tries to adept [Bootstrap's `embed-responsive` class](https://getbootstrap.com/docs/4.1/utilities/embed/) from the embed element.
 `excludeElements` | `string` | Yes | `'a'` | A selector defining child elements of the overlay which should not trigger loading the embed content. For example one would not want to trigger the loading when clicking on a link to the privacy policy.
 `classes.root` | `string` | Yes | `'lazyembed'` | The class to apply to the outermost LazyEmbed element wrapped around the embed element. When not applying the default class, you have to adjust the CSS.
 `classes.overlay` | `string` | Yes | `'lazyembed__overlay'` | The class to apply to the overlay element. When not applying the default class, you have to adjust the CSS.
