@@ -23,6 +23,24 @@ const LazyEmbed = (() => {
     const EMBED_RESPONSIVE_PATTERN = /(?:\s|^)embed-responsive(?:\s|$)/;
     const EMBED_RESPONSIVE_ITEM_PATTERN = /(?:\s|^)embed-responsive-item(?:\s|$)/;
 
+    const extend = (target, source) => {
+        for (let key in source) {
+            if (source.hasOwnProperty(key)) {
+                if (Object.prototype.toString.call(source[key]) === '[object Object]') {
+                    if (Object.prototype.toString.call(target[key]) !== '[object Object]') {
+                        target[key] = {};
+                    }
+
+                    extend(target[key], source[key]);
+                } else {
+                    target[key] = source[key];
+                }
+            }
+        }
+
+        return target;
+    };
+
     class LazyEmbed
     {
         static get defaults()
@@ -38,12 +56,9 @@ const LazyEmbed = (() => {
 
         setOptions(options)
         {
-            this.options = options;
-            for (let key in LazyEmbed.defaults) {
-                if (LazyEmbed.defaults.hasOwnProperty(key) && typeof this.options[key] === 'undefined') {
-                    this.options[key] = LazyEmbed.defaults[key];
-                }
-            }
+            this.options = {};
+            extend(this.options, LazyEmbed.defaults);
+            extend(this.options, options);
         }
 
         init()
