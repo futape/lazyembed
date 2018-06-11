@@ -74,7 +74,7 @@ const LazyEmbed = (() => {
                 const parent = embed.parentElement;
 
                 const clonedEmbed = embed.cloneNode(true);
-                clonedEmbed.className += this.options.classes.embed;
+                clonedEmbed.className += ' ' + this.options.classes.embed;
 
                 const wrapper = document.createElement('div');
                 wrapper.className = this.options.classes.root;
