@@ -123,11 +123,11 @@ const LazyEmbed = (() => {
                 overlay.appendChild(overlayText);
 
                 const overlayExcludes = overlay.querySelectorAll(this.options.excludeElements);
-                overlayExcludes.forEach(overlayExclude => {
-                    overlayExclude.addEventListener('click', function(e) {
+                for (let u = 0; u < overlayExcludes.length; u++) {
+                    overlayExcludes[u].addEventListener('click', e => {
                         e.stopPropagation();
                     }, false);
-                });
+                }
 
                 wrapper.appendChild(clonedEmbed);
                 if (image) {

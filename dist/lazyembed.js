@@ -129,11 +129,11 @@ var LazyEmbed = function () {
                     overlay.appendChild(overlayText);
 
                     var overlayExcludes = overlay.querySelectorAll(_this.options.excludeElements);
-                    overlayExcludes.forEach(function (overlayExclude) {
-                        overlayExclude.addEventListener('click', function (e) {
+                    for (var u = 0; u < overlayExcludes.length; u++) {
+                        overlayExcludes[u].addEventListener('click', function (e) {
                             e.stopPropagation();
                         }, false);
-                    });
+                    }
 
                     wrapper.appendChild(clonedEmbed);
                     if (image) {
