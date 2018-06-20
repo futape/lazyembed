@@ -70,7 +70,8 @@ const LazyEmbed = (() => {
                 embeds = this.options.elements;
             }
 
-            embeds.forEach(embed => {
+            for (let i = 0; i < embeds.length; i++) {
+                const embed = embeds[i];
                 const parent = embed.parentElement;
 
                 const clonedEmbed = embed.cloneNode(true);
@@ -137,7 +138,7 @@ const LazyEmbed = (() => {
                 embed.parentNode.replaceChild(wrapper, embed);
 
                 this.options.onInit(wrapper);
-            });
+            }
         }
     }
 

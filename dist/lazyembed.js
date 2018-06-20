@@ -78,7 +78,8 @@ var LazyEmbed = function () {
                     embeds = this.options.elements;
                 }
 
-                embeds.forEach(function (embed) {
+                var _loop = function _loop(i) {
+                    var embed = embeds[i];
                     var parent = embed.parentElement;
 
                     var clonedEmbed = embed.cloneNode(true);
@@ -143,7 +144,11 @@ var LazyEmbed = function () {
                     embed.parentNode.replaceChild(wrapper, embed);
 
                     _this.options.onInit(wrapper);
-                });
+                };
+
+                for (var i = 0; i < embeds.length; i++) {
+                    _loop(i);
+                }
             }
         }]);
 

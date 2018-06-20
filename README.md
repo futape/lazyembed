@@ -70,7 +70,7 @@ You can pass an object of options to LazyEmbed's constructor.
 
 Option | Type | Required | Default | Description
 ------ | ---- | -------- | ------- | -----------
-`elements` | <code>string &vert; Iteratable&lt;HTMLElement&gt;</code> | Yes | `'[data-lazyembed]'` | The embed elements to lazyload. Either a string used as selector or an iteratable of `HTMLElement`s implementing the `forEach` method.
+`elements` | <code>string &vert; Countable&lt;HTMLElement&gt;</code> | Yes | `'[data-lazyembed]'` | The embed elements to lazyload. Either a string used as selector or a countable of `HTMLElement`s implementing a `length` property.
 `overlayText` | `string` | Yes | `'Click to load'` | The text printed on the overlay. Can contain HTML.
 `overlayBackground` | `string` | No | - | **_DEPRECATED_** The background color of the overlay. Can be any CSS color.
 `overlayColor` | `string` | No | - | **_DEPRECATED_** The overlay's text color. Can be any CSS color.
