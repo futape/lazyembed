@@ -60,7 +60,19 @@ gulp.task('build:styles', ['clean:styles'], function() {
 gulp.task('build:scripts', ['clean:scripts'], function() {
     var source = gulp.src(paths.scripts.src)
     .pipe(sourcemaps.init())
-    .pipe(babel());
+    .pipe(babel({
+        presets: [
+            [
+                'env',
+                {
+                    modules: false
+                }
+            ]
+        ],
+        plugins: [
+            'transform-es2015-modules-strip'
+        ]
+    }));
 
     var scripts = source.pipe(clone())
     .pipe(sourcemaps.write('.'))
