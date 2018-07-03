@@ -1,12 +1,13 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
+var autoprefixer = require('autoprefixer');
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var del = require('del');
 var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
-var cssnano = require('gulp-cssnano');
+var cssnano = require('cssnano');
+var postcss = require('gulp-postcss');
 var path = require('path');
 var merge = require('merge-stream');
 var clone = require('gulp-clone');
@@ -40,7 +41,9 @@ gulp.task('build:styles', ['clean:styles'], function() {
     .pipe(sass({
         outputStyle: 'expanded'
     }))
-    .pipe(autoprefixer());
+    .pipe(postcss([
+        autoprefixer()
+    ]));
 
     var styles = source.pipe(clone())
     .pipe(sourcemaps.write('.'))
@@ -50,7 +53,9 @@ gulp.task('build:styles', ['clean:styles'], function() {
     .pipe(rename({
         suffix: '.min'
     }))
-    .pipe(cssnano())
+    .pipe(postcss([
+        cssnano()
+    ]))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.styles.dest));
 
