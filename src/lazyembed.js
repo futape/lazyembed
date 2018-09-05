@@ -106,6 +106,8 @@ const LazyEmbed = (() => {
                     if (clonedEmbed.hasAttribute('data-src')) {
                         clonedEmbed.addEventListener('load', () => {
                             this.options.onLoad(clonedEmbed);
+                        }, {
+                            once: true
                         }, false);
                         clonedEmbed.setAttribute('src', clonedEmbed.getAttribute('data-src'));
                     }
